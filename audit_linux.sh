@@ -338,6 +338,7 @@ if [ "$check_commands" = "y" ]; then
 	$OA_ECHO "echo                 : $OA_ECHO"
 	$OA_ECHO "ethtool              : $OA_ETHTOOL"
 	$OA_ECHO "expr                 : $OA_EXPR"
+	$OA_ECHO "find                 : $OA_FIND"
 	$OA_ECHO "fdisk                : $OA_FDISK"
 	$OA_ECHO "grep                 : $OA_GREP"
 	$OA_ECHO "head                 : $OA_HEAD"
