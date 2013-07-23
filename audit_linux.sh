@@ -1336,7 +1336,7 @@ case $system_os_family in
 			;;
 		'CentOS' | 'RedHat' | 'SUSE' )
 			INITDEFAULT=$($OA_AWK -F: '/id:/,/:initdefault:/ { print $2 }' /etc/inittab)
-			$OA_CHKCONFIG |\
+			$OA_CHKCONFIG --list |\
 				$OA_SED -e '/^$/d' -e '/xinetd based services:/d' |\
 				$OA_AWK -v ID="$INITDEFAULT" ' { sub(/:/, "", $1); print "\t\t<service>\n\t\t\t<service_name>"$1"</service_name>"; if ($2 =="on" || $5 ==ID":on") print "\t\t\t<service_start_mode>Auto</service_start_mode>"; else if ($2 =="off" || $5 ==ID":off") print "\t\t\t<service_start_mode>Manual</service_start_mode>"; print "\t\t</service>" } ' >>\
 			$xml_file
