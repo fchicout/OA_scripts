@@ -17,6 +17,7 @@
 #
 # http://www.linuxjournal.com/content/use-date-command-measure-elapsed-time
 #
+
 #set -x
 ########################################################
 # DEFINE SCRIPT PARAMETERS                             #
@@ -1003,26 +1004,29 @@ fi
 
 net_cards=`for dir in /sys/class/net/*; 
                do [ -e $dir/device ] && {
-	          $OA_ECHO "$dir $(readlink -f $dir/device)" | $OA_AWK -F\/ '{ print $9"/"$5 }' | $OA_AWK -F\: '{ print $2":"$3 }' ;
-	       }; done`
+	          $OA_ECHO "$dir $(readlink -f $dir/device)" | $OA_AWK -F\/ '{ print $9"/"$5 }' | $OA_AWK -F\: '{ print $2":"$3 }' | tr -d '[:blank:]';
+	       }; done`;
 
 if [ "$net_cards" != "" ]; then
 	# Store the IP Addresses Information in a variable to write it later on the file
 	addr_info=""
-	$OA_ECHO "	<network_cards>" >> $xml_file
+	$OA_ECHO "	<network_cards>" >> $xml_file;
+	
+	#IFS=$'\n'; for net_card_connection_id in `$OA_LS -l /sys/class/net/ |\
+		##$OA_GREP -Ev 'bonding_masters|lo|total' |\
+		##$OA_SED -re 's/virtio[0-9]+\///' |\
+		##$OA_REV |\
+		##$OA_CUT -d/ -f1,3 |\
+		##$OA_REV |\
+		##$OA_CUT -d: -f2,3`; do
 	#IFS=$'\n'; for net_card_connection_id in `$OA_LS -l /sys/class/net/ |\
 		#$OA_GREP -Ev 'bonding_masters|lo|total' |\
 		#$OA_SED -re 's/virtio[0-9]+\///' |\
 		#$OA_REV |\
-		#$OA_CUT -d/ -f1,3 |\
-		#$OA_REV |\
-		#$OA_CUT -d: -f2,3`; do
-	IFS=$'\n'; for net_card_connection_id in `$OA_LS -l /sys/class/net/ |\
-		$OA_GREP -Ev 'bonding_masters|lo|total' |\
-		$OA_SED -re 's/virtio[0-9]+\///' |\
-		$OA_REV |\
-		$OA_AWK '{ print $1 }' |\
-		$OA_REV`; do
+		#$OA_AWK '{ print $1 }' |\
+		#$OA_REV`; do
+	IFS=$'\n'; for net_card_connection_id in $net_cards; do 
+
 			net_card_id=`$OA_ECHO $net_card_connection_id |\
 				$OA_CUT -d/ -f2`
 			net_card_pci=`$OA_ECHO $net_card_connection_id |\
