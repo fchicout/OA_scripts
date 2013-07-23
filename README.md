@@ -15,3 +15,9 @@ Because of the absence of some symlink on /sys/class/net/*/device
 More broader strategy found on http://www.linuxfromscratch.org/blfs/view/development/chapter07/network.html.
 
 3- Test on CentOS 5 and 6
+
+4- Analyse why chkconfig messages show on output
+
+5- Fix the problem.
+
+6- Adjust details to publish and publish. Try to contact Opmantek to submit the fix (officially).
