@@ -1001,19 +1001,10 @@ if [ "$debugging" -gt "0" ]; then
 	$OA_ECHO "Network Cards Info"
 fi
 
-net_cards=`$OA_LS -l /sys/class/net/ |\
-           $OA_GREP -Ev 'bonding_masters|lo|total' |\
-           $OA_REV |\
-	   $OA_AWK '{ print $1 }' |\
-	   $OA_REV`
-
-# Removed. The cut commands are not working on centos 5.X (do not investigated why)
-#net_cards=`$OA_LS -l /sys/class/net/ |\
-#	$OA_GREP -Ev 'bonding_masters|lo|total' |\
-#	$OA_REV |\
-#	$OA_CUT -d/ -f1,3 |\
-#	$OA_REV |\
-#	$OA_CUT -d: -f2,3`
+net_cards=`for dir in /sys/class/net/*; 
+               do [ -e $dir/device ] && {
+	          $OA_ECHO "$dir $(readlink -f $dir/device)" | $OA_AWK -F\/ '{ print $9"/"$5 }' | $OA_AWK -F\: '{ print $2":"$3 }' ;
+	       }; done`
 
 if [ "$net_cards" != "" ]; then
 	# Store the IP Addresses Information in a variable to write it later on the file
