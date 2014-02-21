@@ -3,12 +3,15 @@ OA_scripts
 
 OpenAudit Scripts
 
-This is a non-official fork of the OpenAudit's audit_linux.sh script.
-The broader goal is to fix the script to work completely fine on a wider variety of Linux Systems.
+This is a repository to the OpenAudit's audit_linux.sh script.
+The starter goal was to fix the script to work completely fine on a wider variety of Linux Systems.
+
+Now it will receive scripts to audit other platforms.
 
 RoadMap
 
-6- Adjust details to publish and publish. Try to contact Opmantek to submit the fix (officially).
+6- Adjust details to publish and publish. Try to contact Opmantek to submit the fix (officially). (done)
+            Now the script is official now. (http://www.open-audit.org/downloads.php)
 
 5- Fix the chkconfig problem. (done)
 
